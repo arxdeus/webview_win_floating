@@ -101,9 +101,9 @@ class WinWebViewWidget extends StatefulWidget {
   final WinWebViewController controller;
 
   const WinWebViewWidget({
-    Key? key,
+    super.key,
     required this.controller,
-  }) : super(key: key);
+  });
 
   @override
   State<StatefulWidget> createState() => _WinWebViewWidgetState();
@@ -362,9 +362,6 @@ class WinWebViewController {
       {LoadRequestMethod method = LoadRequestMethod.get,
       Map<String, String> headers = const <String, String>{},
       Uint8List? body}) async {
-    if (method != LoadRequestMethod.get || headers.isNotEmpty || body != null) {
-      log("[webview_win_floating] loadRequest() doesn't support headers / body / post / update / delete");
-    }
     await _initFuture;
     await WebviewWinFloatingPlatform.instance.loadUrl(_webviewId, url);
   }

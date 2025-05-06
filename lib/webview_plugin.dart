@@ -49,9 +49,7 @@ class WindowsPlatformNavigationDelegate extends PlatformNavigationDelegate {
   PageEventCallback? onPageFinished;
   WebResourceErrorCallback? onWebResourceError;
 
-  WindowsPlatformNavigationDelegate(
-      PlatformNavigationDelegateCreationParams params)
-      : super.implementation(params);
+  WindowsPlatformNavigationDelegate(super.params) : super.implementation();
 
   @override
   Future<void> setOnNavigationRequest(
@@ -95,8 +93,7 @@ class WindowsPlatformWebViewWidgetCreationParams
 }
 
 class WindowsPlatformWebViewWidget extends PlatformWebViewWidget {
-  WindowsPlatformWebViewWidget(PlatformWebViewWidgetCreationParams params)
-      : super.implementation(params);
+  WindowsPlatformWebViewWidget(super.params) : super.implementation();
 
   @override
   Widget build(BuildContext context) {
@@ -318,9 +315,7 @@ class WindowsPlatformWebViewCookieManagerCreationParams
 }
 
 class WindowsPlatformWebViewCookieManager extends PlatformWebViewCookieManager {
-  WindowsPlatformWebViewCookieManager(
-      PlatformWebViewCookieManagerCreationParams params)
-      : super.implementation(params);
+  WindowsPlatformWebViewCookieManager(super.params) : super.implementation();
 
   @override
   Future<bool> clearCookies() async {
