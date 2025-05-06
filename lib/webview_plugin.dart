@@ -47,6 +47,7 @@ class WindowsPlatformNavigationDelegate extends PlatformNavigationDelegate {
   NavigationRequestCallback? onNavigationRequest;
   PageEventCallback? onPageStarted;
   PageEventCallback? onPageFinished;
+  void Function(UrlChange change)? onUrlChange;
   WebResourceErrorCallback? onWebResourceError;
 
   WindowsPlatformNavigationDelegate(super.params) : super.implementation();
@@ -60,6 +61,11 @@ class WindowsPlatformNavigationDelegate extends PlatformNavigationDelegate {
   @override
   Future<void> setOnPageStarted(PageEventCallback onPageStarted) async {
     this.onPageStarted = onPageStarted;
+  }
+
+  @override
+  Future<void> setOnUrlChange(UrlChangeCallback onUrlChange) async {
+    this.onUrlChange = onUrlChange;
   }
 
   @override
@@ -141,11 +147,18 @@ class WindowsPlatformWebViewController extends PlatformWebViewController {
   Future<void> setPlatformNavigationDelegate(
       PlatformNavigationDelegate handler) async {
     var delegate = handler as WindowsPlatformNavigationDelegate;
+
     controller.setNavigationDelegate(WinNavigationDelegate(
       onNavigationRequest: delegate.onNavigationRequest,
       onPageStarted: delegate.onPageStarted,
       onPageFinished: delegate.onPageFinished,
       onWebResourceError: delegate.onWebResourceError,
+      onHistoryChanged: () async {
+        final currentUrl = await this.currentUrl();
+        delegate.onUrlChange?.call(
+          UrlChange(url: currentUrl),
+        );
+      },
     ));
   }
 
